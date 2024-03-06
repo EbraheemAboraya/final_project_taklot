@@ -61,9 +61,8 @@ const addOffer = async (req, res) => {
 // update offer
 const update_offer = async (req, res) => {
   try {
-    const technicalID = getParameter("technicalId");
     const { offerID, bid, comments } = req.body;
-    const new_Offer = await offerRepository.udpateOffer(offerID, {
+    const new_Offer = await offerRepository.udpateTecOffer(offerID, {
       bid,
       comments,
     });
@@ -141,11 +140,11 @@ const getrequestspage = async (req, res) => {
         }
         req.query.query = "";
         requests = userRequests;
-        res.render("technicalRequests", { requests, helpseekers });
+       return res.render("technicalRequests", { requests, helpseekers });
       }
-      res.render("technicalRequests", { requests, helpseekers });
+      return res.render("technicalRequests", { requests, helpseekers });
     } else {
-      res.render("technicalRequests", { requests, helpseekers });
+      return res.render("technicalRequests", { requests, helpseekers });
     }
   } catch (err) {
     return res.status(err?.status || 500).json({ message: err.message });

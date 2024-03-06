@@ -200,6 +200,23 @@ const getofferByReqId = async (requestID) => {
   }
 };
 
+const udpateTecOffer = async (requestID, updateData) => {
+  try {
+    console.log(requestID, updateData);
+
+    const offer = await Offer.findOneAndUpdate(
+      { _id: requestID },
+      { $set: { bid: updateData.bid, comments: updateData.comments } },
+      { new: true }
+    );
+    return offer;
+  } catch (error) {
+    console.error("Error updating offer:", error);
+    throw error;
+  }
+};
+
+
 module.exports = {
   getOfferById,
   addOffer,
@@ -213,4 +230,5 @@ module.exports = {
   getRequestIdByOfferId,
   deleteOfferbyReqId,
   getofferByReqId,
+  udpateTecOffer
 };

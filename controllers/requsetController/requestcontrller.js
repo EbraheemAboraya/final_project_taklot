@@ -192,8 +192,9 @@ const getReqByID = async (req, res) => {
 // update request
 const req_update = async (req, res) => {
   try {
+    const userId = getParameter("helpseekerID");
     const requestID = req.body.requestID;
-    res.render("Helpseeker-requestform", { requestID });
+    res.render("Helpseeker-requestform", { requestID ,userId});
   } catch (err) {
     return res.status(err?.status || 500).json({ message: err.message });
   }

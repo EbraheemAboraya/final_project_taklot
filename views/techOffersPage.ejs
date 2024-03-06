@@ -24,40 +24,7 @@
   <link href="/vendor/quill/quill.bubble.css" rel="stylesheet">
   <link href="/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="/vendor/simple-datatables/style.css" rel="stylesheet">
-  <script src="/socket.io/socket.io.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      // Listen for the form submit event
-      document.getElementById("updateOfferForm").addEventListener("submit", function(event) {
-        event.preventDefault(); // Prevent the default form submission
-  
-        const form = document.getElementById("updateOfferForm"); // Reference to your form
-        const formData = new FormData(form);
-  
-        // Send the form data to the server via fetch
-        fetch("/tech/addOffer", { // Update the URL to match your form's action
-          method: "POST", // Ensure this matches the method in your form
-          body: formData, // Sending the formData
-         
-        })
-        .then((response) => {
-          if(response.ok) {
-            return response.json(); // Parse JSON response if the request was successful
-          }
-          throw new Error('Network response was not ok.');
-        })
-        .then((data) => {
-          console.log("Success:", data);
-          window.location.href = '/tech/offers'; // Redirect to a specific page after success
-          // Adjust the redirect URL as needed
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-          // Here, you might want to handle errors, perhaps showing a message to the user
-        });
-      });
-    });
-  </script>
+
 <link href="/css/style.css" rel="stylesheet">
 </head>
 
