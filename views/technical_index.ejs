@@ -31,42 +31,39 @@
 <!-- Template Main CSS File -->
 <link href="/css/style.css" rel="stylesheet">
 <script src="/socket.io/socket.io.js"></script>
-  <script>
-    const socket = io(); // Connect to the server
-  
-    socket.on("new-request", function(data) {
-      const notificationsDiv = document.getElementById("notifications");
-      const notification = document.createElement("p");
-      // Correctly accessing the category and details from the data object
-      notification.textContent = `New request in category '${data.category}': ${data.details}`;
-      notificationsDiv.appendChild(notification);
 
-      // Increment the notification count
+<script>
+  const socket = io(); 
+
+  socket.on("new-request", function(data) {
+    const notificationsDiv = document.getElementById("notifications");
+    const notification = document.createElement("p");
+    // Correctly accessing the category and details from the data object
+    notification.textContent = `New request in category '${data.category}': ${data.details}`;
+    notificationsDiv.appendChild(notification);
+
+    // Increment the notification count
     const badge = document.getElementById("notificationBadge");
     let count = parseInt(badge.textContent) || 0;
     badge.textContent = ++count;
 
     if (count > 0) {
       badge.classList.add('show-badge');
-    } else {
-      badge.classList.remove('show-badge');
     }
-    
+
+  });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const bellIcon = document.querySelector('.bi-bell'); // Adjust the selector if necessary
+    bellIcon.addEventListener('click', function() {
+      const badge = document.getElementById('notificationBadge');
+      badge.classList.remove('show-badge'); // Hide the badge
+      badge.textContent = '0'; // Reset the count, optional based on your needs
+
     });
-  </script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const bellIcon = document.querySelector('.bi-bell'); // Adjust the selector if necessary
-      bellIcon.addEventListener('click', function() {
-        const badge = document.getElementById('notificationBadge');
-        badge.classList.remove('show-badge'); // Hide the badge
-        badge.textContent = '0'; // Reset the count, optional based on your needs
-    
-        // Here, you might also want to mark notifications as read in your backend or frontend store
-      });
-    });
-    
-  </script>
+  });
+</script>
+
 
 
   <!-- =======================================================
@@ -104,18 +101,17 @@
 
 
         <li class="nav-item dropdown">
-
           <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
             <i class="bi bi-bell"></i>
-            <span class="badge bg-primary badge-number"></span>
+            <span id="notificationBadge" class="badge bg-primary badge-number"></span>
           </a><!-- End Notification Icon -->
-
-          <ul id="notifications" class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+        
+          <ul id="notifications" class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
             
           
           </ul><!-- End Notification Dropdown Items -->
-
         </li><!-- End Notification Nav -->
+        
 
         <li class="nav-item dropdown pe-3">
 
@@ -459,13 +455,7 @@
 
   </main><!-- End #main -->
 
-  <!-- ======= Footer ======= -->
-  <footer id="footer" class="footer">
-    <div class="copyright">
-      &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
-    </div>
-    
-  </footer><!-- End Footer -->
+
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

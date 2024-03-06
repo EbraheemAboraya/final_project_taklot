@@ -98,7 +98,7 @@ const getProfile = async (req, res) => {
   try {
     const helpseekerId = getParameter("helpseekerID");
     const user = await userRepository.getUserByID(helpseekerId);
-    res.render("HelpSeeker-profile",{user});
+    res.render("HelpSeeker-profile", { user });
   } catch (err) {
     return res.status(err?.status || 500).json({ message: err.message });
   }
@@ -108,10 +108,11 @@ const post_Login = async (req, res) => {
   try {
     const { userName, password } = req.body;
     const user = await userRepository.checkUser(userName, password);
+    if (!user || !user.isMatch) {
+      console.log("here");
 
-    if (!user) {
       const technical = await techRepository.checkUser(userName, password);
-      if (!technical) {
+      if (!technical || !technical.isMatch) {
         res.redirect("/login");
       } else {
         saveParameter("technicalId", `${technical.technicalId}`);
@@ -130,7 +131,7 @@ const post_Login = async (req, res) => {
 const getUserPage = async (req, res) => {
   try {
     const userId = getParameter("helpseekerID");
-    res.render("helpSeeker-index",{userId});
+    res.render("helpSeeker-index", { userId });
   } catch (err) {
     return res.status(err?.status || 500).json({ message: err.message });
   }
@@ -188,7 +189,6 @@ const acceptOffer = async (req, res) => {
     let bool = req.body.bool;
     let status;
     requestID = requestID.replace(/`/g, "");
-
 
     if (bool == 0) {
       status = "approved";

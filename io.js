@@ -1,5 +1,5 @@
 const socketIO = require('socket.io');
-const socketManager = require('./socketManager'); // Assuming you have this module to manage user-socket mappings
+const socketManager = require('./socketManager');
 
 let io = null;
 

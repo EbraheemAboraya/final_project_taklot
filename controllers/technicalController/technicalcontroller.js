@@ -3,7 +3,7 @@ const offerRepository = require("../../repository/offerRepository/offerRepos");
 const requestRepository = require("../../repository/requestRepostiory/requesRepos");
 const userRepository = require("../../repository/userRepository/userRepos");
 const techReqRepository = require("../../repository/techRequestRepo/techRequestRepos");
-const socketManager = require('../../socketManager'); // Adjust the path to your socketManager module
+const socketManager = require("../../socketManager"); // Adjust the path to your socketManager module
 
 const {
   saveParameter,
@@ -41,14 +41,16 @@ const addOffer = async (req, res) => {
       comments
     );
 
-    const userId = await requestRepository.getHelpSeekerIdByRequestId(requestID);
+    const userId = await requestRepository.getHelpSeekerIdByRequestId(
+      requestID
+    );
     // Store the new offer in Redis
-    const helpSeekerSocketId=socketManager.getUserSocket(userId);
+    const helpSeekerSocketId = socketManager.getUserSocket(userId);
     // Get the help seeker's socket ID from Redis
     const io = require("../../io").getIO();
 
     // Emit a socket.io event to notify the help seeker about the new offer
-    io.to(helpSeekerSocketId).emit('newOffer', new_Offer);
+    io.to(helpSeekerSocketId).emit("newOffer", new_Offer);
 
     if (!new_Offer)
       throw new BadRequsetError(`Technical implement is not true`);
@@ -118,12 +120,11 @@ const getrequestspage = async (req, res) => {
     }
     let helpseekers;
     if (requests && requests.length > 0) {
-
       const helpseekerPromises = requests.map((request) => {
         return userRepository.getUserByID(request.helpseekerId);
       });
       helpseekers = await Promise.all(helpseekerPromises);
-      
+
       let query = req.query.query;
       if (query) {
         const userRequests = [];
@@ -140,7 +141,7 @@ const getrequestspage = async (req, res) => {
         }
         req.query.query = "";
         requests = userRequests;
-       return res.render("technicalRequests", { requests, helpseekers });
+        return res.render("technicalRequests", { requests, helpseekers });
       }
       return res.render("technicalRequests", { requests, helpseekers });
     } else {
@@ -201,7 +202,7 @@ const getTechPage = async (req, res) => {
         // }
 
         return {
-          ...offer, 
+          ...offer,
           requestDetails: requestDetails || "Details not found",
           helpSeekerName,
         };

@@ -98,13 +98,10 @@ const request_post = async (req, res) => {
         formData.append("image", fs.createReadStream(req.file.path));
         // Proceed with sending the file to the Flask app
       } else {
-        // Handle the case where the file is not uploaded
         console.log("No file uploaded.");
-        // You might want to return an error response here
       }
       const helpseekerId = getParameter("helpseekerID");
 
-      // const { category, details } = req.body;
       const matchingTechnicals = await Techincal.find({
         category: category,
       });
@@ -123,7 +120,7 @@ const request_post = async (req, res) => {
 
 
         const io = require('../../io').getIO();
-        io.emit("new-request", { category: newReq.category, details: newReq.details }); // Adjust according to your frontend needs
+        io.emit("new-request", { category: newReq.category, details: newReq.details }); 
 
         
         await notifyRelevantTechnicals(matchingTechnicals, newReq);
@@ -142,7 +139,7 @@ const request_post = async (req, res) => {
       }
     }
 
-    res.redirect("/home/helpseeker");
+    res.redirect("/home/helpseeker/requests");
   } catch (err) {
     console.error(err);
     res.status(500).send("Error uploading image");

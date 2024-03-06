@@ -56,7 +56,7 @@ connectDB();
 
 server.listen(port, () => {
   console.log(`Server running at http://localhost:${port}/login`);
-  require('./io').init(server); // Make sure this is called here
+  require('./io').init(server);
 });
 
 // Export the app and server for testing purposes (if needed)

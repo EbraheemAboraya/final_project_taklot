@@ -76,7 +76,7 @@ const getData = async technicalID => {
 
 const deleteRequestsByRequestId = async (requestID) => {
     try {
-        const result = await techRequestModel.findOneAndDelete({ requestID });
+        const result = await techRequestModel.deleteMany({ requestID });
         return result;
     } catch (error) {
         console.error(error);
